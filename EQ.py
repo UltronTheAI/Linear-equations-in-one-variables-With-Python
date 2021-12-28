@@ -52,5 +52,6 @@ ls.append(''' + res[1] + ns + ''')
          ''')            
     return ls[0] / x
 
+
 #   Linear equations in one variables String pass to a function
 print(solve('x + 2 = 7'))
