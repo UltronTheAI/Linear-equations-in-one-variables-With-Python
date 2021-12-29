@@ -46,6 +46,8 @@ def RemoveNumFromX(x):
                 
                 if pn1 == '-' or pn1 == '+' or pn1 == '/' or pn1 == '*':
                     
+                    if data.replace('x', '') == '':
+                        data = '1'
                     num = int(data.replace('x', ''))
                     if pn1 == '-':
                         fx2 -= num
@@ -128,7 +130,8 @@ rtx.append(''' + fffs + ''')
 def solve(eq):
     res = eq
     x = 0
-    xs = RemoveNumFromX(eq)
+    xs = RemoveNumFromX(eq.replace(' ', '').replace(
+        '-', ' - ').replace('+', ' + ').replace('/', ' / ').replace('*', ' * ').replace('=', ' = '))
     
     return xs
 
