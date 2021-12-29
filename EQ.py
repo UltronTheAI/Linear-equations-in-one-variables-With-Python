@@ -1,57 +1,137 @@
-def Get_X(eq):
-    res = eq.replace('1', '').replace(
-        '2', '').replace('3', '').replace('4', '').replace('5', '').replace('6', '').replace('7', '').replace('8', '').replace('9', '').replace('0', '').replace('+', '').replace('-', '').replace('*', '').replace('/', '').replace('=', '')
-    res = len(res)
-    return res
+def RemoveNumFromX(x):
+    # res = x.split('=')[1]
+    res2 = x.split(' ')
+    fx = 0
+    fx2 = 0
+    calc = []
+    calc2 = []
+    
+    for i in range(0, len(res2)):
+        data = res2[i]
+        if 'x' in data:
+            if fx == 0:
+                d2 = data.replace('x', '')
+                if d2 == '':
+                    d2 = 1
+                else: d2 = int(d2)
+                fx2 += d2
+            else: 
+                pn1 = ''
+                pn2 = ''
+                try:
+                    bres2 = res2[i - 1]
+                    if bres2 == '+':
+                        pn1 = '-'
+                    if bres2 == '-':
+                        pn1 = '+'
+                    if bres2 == '*':
+                        pn1 = '/'
+                    if bres2 == '/':
+                        pn1 = '*'
+                    
+                except: pass
+                try:
+                    bres2 = res2[i + 1]
+                    if bres2 == '+':
+                        pn2 = '-'
+                    if bres2 == '-':
+                        pn2 = '+'
+                    if bres2 == '*':
+                        pn2 = '/'
+                    if bres2 == '/':
+                        pn2 = '*'
+
+                except:
+                    pass
+                
+                if pn1 == '-' or pn1 == '+' or pn1 == '/' or pn1 == '*':
+                    
+                    num = int(data.replace('x', ''))
+                    if pn1 == '-':
+                        fx2 -= num
+                    if pn1 == '+':
+                        fx2 += num
+                    if pn1 == '/':
+                        fx2 /= num
+                    if pn1 == '*':
+                        fx2 *= num
+        if data == '=': fx = 2
+        else:
+            if fx == 0:
+                if 'x' in data or '-' in data or '+' in data or '*' in data or '/' in data: pass
+                else:
+                    pn3 = ''
+                    pn4 = ''
+                    try:
+                        pn33 = res2[i - 1]
+                        # print(pn3)
+                        if pn33 == '-':
+                            pn3 = '+'
+                            # print('yes')
+                        if pn33 == '+':
+                            pn3 = '-'
+                        if pn33 == '/':
+                            pn3 = '*'
+                        if pn33 == '*':
+                            pn3 = '/'
+                        else: pass
+                        # print(pn3)
+
+                    except:
+                        pass
+                    try:
+                        pn4 = res2[i + 1]
+
+                    except:
+                        pass
+                    calc.append(pn3 + data)
+            if fx == 2:
+                if 'x' in data or '-' in data or '+' in data or '*' in data or '/' in data:
+                    pass
+                else:
+                    pn3 = ''
+                    pn4 = ''
+                    try:
+                        pn3 = res2[i - 1]
+                        if pn3 == '=': pn3 = ''
+                        # print(pn3)
+                        # else:
+                            # pass
+                        # print(pn3)
+
+                    except:
+                        pass
+                    try:
+                        pn4 = res2[i + 1]
+
+                    except:
+                        pass
+                    calc2.append(pn3 + data)
+    fffs = ''
+    for ci in calc2:
+        fffs += ci
+    for ci in calc:
+        fffs += ci
+    
+    rtx = []
+    exec('''
+rtx.append(''' + fffs + ''')
+         ''')
+    
+   
+    res567 = rtx[0]
+    
+    if fx2 == 0:
+        fx2 = 1
+    return res567 / fx2
 
 def solve(eq):
-    res = eq.replace(' ', '') #.split('=')
-    x = 1
+    res = eq
+    x = 0
+    xs = RemoveNumFromX(eq)
     
-    x = Get_X(res)
-    res = res.split('=')
-    
-    one = res[0]
-    two = res[1]
-    
-    o1 = list(one)
-    
-    v = ''
-    ns = ''
-    gx = 0
-    gpass = 0 
-    for i in o1:
-        if gpass == 0:
-            if i == 'x':
-                gx = 1
-            if gx == 1:
-                if i == 'x':
-                    pass
-                if i == '+':
-                    v = '+'
-                    ns += '-'
-                    gpass = 0
-                if i == '-':
-                    v = '-'
-                    ns += '+'
-                if i == '*':
-                    v = '*'
-                    ns += '/'
-                if i == '/':
-                    v = '/'
-                    ns += '*'
-                else: ns += i.replace('x', '')
-        # gpass = 0
-        else: pass
-        if gpass > 0:
-            gpass -= 1
-        # print(ns)
-    ls = []
-    exec('''
-ls.append(''' + res[1] + ns + ''')  
-         ''')            
-    return ls[0] / x
+    return xs
 
 
 #   Linear equations in one variables String pass to a function
-print(solve('x + 2 = 7'))
+print(solve('5x - 3 = 7 - 5x'))
