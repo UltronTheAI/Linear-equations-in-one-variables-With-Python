@@ -138,3 +138,4 @@ def solve(eq):
 
 #   Linear equations in one variables String pass to a function
 print(solve('5x - 3 = 7 - 5x'))
+
